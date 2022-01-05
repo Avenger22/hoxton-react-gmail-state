@@ -1,18 +1,21 @@
 import Header from './components/Header'
-
 import initialEmails from './data/emails'
-
 import './App.css'
 
 function App() {
+
   // Use initialEmails for state
   console.log(initialEmails)
 
   return (
     <div className="app">
+  
       <Header />
+
       <nav className="left-menu">
+
         <ul className="inbox-list">
+
           <li
             className="item active"
             // onClick={() => {}}
@@ -20,6 +23,7 @@ function App() {
             <span className="label">Inbox</span>
             <span className="count">?</span>
           </li>
+
           <li
             className="item"
             // onClick={() => {}}
@@ -37,11 +41,21 @@ function App() {
               // onChange={() => {}}
             />
           </li>
+
         </ul>
+
       </nav>
-      <main className="emails">{/* Render a list of emails here */}</main>
+
+      <main className="emails">
+        {
+        /* Render a list of emails here */
+        
+        }
+      </main>
+
     </div>
   )
+
 }
 
 export default App
