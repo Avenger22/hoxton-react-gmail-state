@@ -15,6 +15,7 @@ function App() {
   const [emails, setEmails] = useState(initialEmails)
   // #endregion
 
+  // #region 'HELPER FUNCTIONS'
   console.log(emails)
 
   let emailsToDisplay = emails //this is key to render emails gets array from state
@@ -37,17 +38,45 @@ function App() {
     return emailsRead = emailsToDisplay.filter(email => email.read === false)
   }
 
-  function toggleStar(emailParam, emailId) {
-    let getOnlyOne = []
-    getOnlyOne = emailsToDisplay.filter(email => email.id === emailId)
-    const emailStar = getOnlyOne.starred
-    emailParam.starred = !emailStar
+  function toggleStar(emailParam, emailStarred) {
+
+    let updatedEmails = []
+    updatedEmails = emailsToDisplay.filter(email => email.id !== emailParam.id)
+    
+    const starredNew = !emailStarred
+
+    const newObject = {
+      id: emailParam.id,
+      sender: emailParam.sender,
+      title: emailParam.title,
+      starred: starredNew,
+      read: emailParam.read
+    }
+
+    let newEmailsArray = [...updatedEmails, newObject]
+    setEmails(newEmailsArray)
+
   }
 
-  function toggleRead(emailParam, emailId) {
-    let getOnlyOne = []
-    getOnlyOne = emailsToDisplay.filter(email => email.id === emailId)
+  function toggleRead(emailParam, emailRead) {
+    let updatedEmails = []
+    updatedEmails = emailsToDisplay.filter(email => email.id !== emailParam.id)
+
+    const readNew = !emailRead
+
+    const newObject = {
+      id: emailParam.id,
+      sender: emailParam.sender,
+      title: emailParam.title,
+      starred: emailParam.starred,
+      read: readNew
+    }
+
+    let newEmailsArray = [...updatedEmails, newObject]
+    setEmails(newEmailsArray)
+
   }
+  // #endregion
 
 // #region 'RETURNING AND CREATING HTML SPITTING HTML'
   return (
@@ -90,11 +119,11 @@ function App() {
           {
             emailsToDisplay.map(email => (
               <li className="email">
-                <input type="checkbox" checked={false} className='box-checkbox' 
-                onClick={function () {toggleRead(email, email.id)}}/>
+                <input type="checkbox" checked={email.read} className='box-checkbox' 
+                onClick={function () {toggleRead(email, email.read)}}/>
 
                 <input type="checkbox" checked={email.starred} className='star-checkbox' 
-                onClick={function () {toggleStar(email, email.id)}}/>
+                onClick={function () {toggleStar(email, email.starred)}}/>
 
                 <span className=''>{email.sender}{' '}</span>
                 <span className='title'>{email.title}{' '}</span>
