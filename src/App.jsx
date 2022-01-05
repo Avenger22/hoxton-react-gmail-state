@@ -11,12 +11,43 @@ function App() {
   console.log(initialEmails)
 
   // #region 'STATE OBJECT'
-  const [showRead, setShowRead] = useState(false)
+  const [hideRead, setHideRead] = useState(false)
   const [emails, setEmails] = useState(initialEmails)
   // #endregion
 
   console.log(emails)
+
   let emailsToDisplay = emails //this is key to render emails gets array from state
+
+  function toggleHideRead() {
+    setHideRead(!hideRead)
+  }
+
+  if (hideRead === true) {
+    emailsToDisplay = emailsToDisplay.filter(email => !email.read)
+  }
+
+  function lengthStarredEmails() {
+    let emailsStarred = []
+    return emailsStarred = emailsToDisplay.filter(email => email.starred === true)
+  }
+
+  function lengthReadEmails() {
+    let emailsRead = []
+    return emailsRead = emailsToDisplay.filter(email => email.read === false)
+  }
+
+  function toggleStar(emailParam, emailId) {
+    let getOnlyOne = []
+    getOnlyOne = emailsToDisplay.filter(email => email.id === emailId)
+    const emailStar = getOnlyOne.starred
+    emailParam.starred = !emailStar
+  }
+
+  function toggleRead(emailParam, emailId) {
+    let getOnlyOne = []
+    getOnlyOne = emailsToDisplay.filter(email => email.id === emailId)
+  }
 
 // #region 'RETURNING AND CREATING HTML SPITTING HTML'
   return (
@@ -28,20 +59,14 @@ function App() {
 
         <ul className="inbox-list">
 
-          <li
-            className="item active"
-            // onClick={() => {}}
-          >
+          <li className="item active">
             <span className="label">Inbox</span>
-            <span className="count">?</span>
+            <span className="count">{lengthReadEmails().length}</span>
           </li>
 
-          <li
-            className="item"
-            // onClick={() => {}}
-          >
+          <li className="item">
             <span className="label">Starred</span>
-            <span className="count">?</span>
+            <span className="count">{lengthStarredEmails().length}</span>
           </li>
 
           <li className="item toggle">
@@ -49,8 +74,8 @@ function App() {
             <input
               id="hide-read"
               type="checkbox"
-              checked={false}
-              // onChange={() => {}}
+              onClick={toggleHideRead}
+              checked={hideRead}
             />
           </li>
 
@@ -60,13 +85,17 @@ function App() {
 
       <main className="emails">
 
-        <ul className='emails'>
+        <ul className='emails-ul'>
 
           {
             emailsToDisplay.map(email => (
               <li className="email">
-                <input type="checkbox" checked={false} className='box-checkbox'/>
-                <input type="checkbox" checked={false} className='star-checkbox'/>
+                <input type="checkbox" checked={false} className='box-checkbox' 
+                onClick={function () {toggleRead(email, email.id)}}/>
+
+                <input type="checkbox" checked={email.starred} className='star-checkbox' 
+                onClick={function () {toggleStar(email, email.id)}}/>
+
                 <span className=''>{email.sender}{' '}</span>
                 <span className='title'>{email.title}{' '}</span>
               </li>
