@@ -20,12 +20,12 @@ function App() {
 
   let emailsToDisplay = emails //this is key to render emails gets array from state
 
-  function toggleHideRead() {
-    setHideRead(!hideRead)
-  }
-
   if (hideRead === true) {
     emailsToDisplay = emailsToDisplay.filter(email => !email.read)
+  }
+
+  function toggleHideRead() {
+    setHideRead(!hideRead)
   }
 
   function lengthStarredEmails() {
