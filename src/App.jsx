@@ -58,12 +58,15 @@ function App() {
 
   }
 
-  function toggleRead(emailParam, emailRead) {
+  function toggleRead(emailParam, emailRead, checkboxClass) {
     let updatedEmails = []
     updatedEmails = emailsToDisplay.filter(email => email.id !== emailParam.id)
 
     const readNew = !emailRead
 
+    if (readNew === true) {
+      checkboxClass = ''
+    }
     const newObject = {
       id: emailParam.id,
       sender: emailParam.sender,
@@ -118,7 +121,7 @@ function App() {
 
           {
             emailsToDisplay.map(email => (
-              <li className="email">
+              <li className={`email ${email.read ? 'read' : ''}`}>
                 <input type="checkbox" checked={email.read} className='box-checkbox' 
                 onClick={function () {toggleRead(email, email.read)}}/>
 
